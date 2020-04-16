@@ -10,6 +10,7 @@ import sublime
 import sublime_plugin
 
 from .lib import simplejson as json
+from .lib import xml2dict
 from .lib.simplejson import OrderedDict
 
 SUBLIME_MAJOR_VERSION = int(sublime.version()) / 1000
@@ -440,6 +441,41 @@ class JsonToXml(PrettyJsonBaseCommand, sublime_plugin.TextCommand):
 
     def syntax_to_xml(self):
         self.view.set_syntax_file(xml_syntax)
+
+
+# class XmlToJson(PrettyJsonBaseCommand, sublime_plugin.TextCommand):
+#     '''
+#     Description: converts Json to XML
+#     '''
+
+#     def run(self, edit):
+#         regions = self.view.sel()
+#         for region in regions:
+#             selected_entire_file = False
+#             if region.empty() and len(regions) > 1:
+#                 continue
+#             elif region.empty() and s.get('use_entire_file_if_no_selection', True):
+#                 selection = sublime.Region(0, self.view.size())
+#                 region = sublime.Region(0, self.view.size())
+#                 selected_entire_file = True
+#             else:
+#                 selection = region
+
+#             try:
+#                 xml_data = self.view.substr(selection)
+#                 json_output = xml2dict.etree_to_dict(etree=xml2dict.xml_to_etree(xml_data=xml_data))
+#                 json_output = PrettyJsonBaseCommand.json_dumps(obj=json_output, minified=False)
+
+#                 self.view.replace(edit, selection, json_output)
+
+#                 if selected_entire_file:
+#                     self.syntax_to_xml()
+
+#             except Exception as ex:
+#                 self.show_exception(region=region, msg=ex)
+
+#     def syntax_to_json(self):
+#         self.view.set_syntax_file(json_syntax)
 
 
 class JqPrettyJsonOut(sublime_plugin.TextCommand):
